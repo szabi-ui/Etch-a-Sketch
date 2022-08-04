@@ -3,7 +3,15 @@ const btns = document.querySelectorAll('.btn');
 const clrInput = document.querySelector('.color');
 const rangeInput = document.querySelector('.range');
 const board = document.querySelector('.board');
+
+let clrMode = 'default';
 let currentClr = '';
+
+// USEFUL FOR DRAWUBG ONLY WHEN YOU HOVER AND CLICK 
+// TO DRAW NOT ONLY ON HOVER
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
 
 // EVENT LISTENERS
 window.addEventListener('DOMContentLoaded', () => {
@@ -13,11 +21,10 @@ window.addEventListener('DOMContentLoaded', () => {
 btns.forEach(btn => {
     btn.addEventListener('click', e => {
         if(e.target.textContent === 'Rainbow') {
-            console.log('roinbow your ass');
+            clrMode = 'rainbow';
         }
         else if(e.target.textContent === 'Eraser') {
-            currentClr = '#fff';
-            console.log(currentClr);
+            clrMode = 'eraser';
         }
         else {
             rangeInput.value = 16;
@@ -28,15 +35,29 @@ btns.forEach(btn => {
 });
 
 clrInput.addEventListener('change', e => {
-    console.log(e.target.value);
+    clrMode = 'default';
+    currentClr = e.target.value;
+    
 });
 
-rangeInput.addEventListener('change', e => {
+rangeInput.addEventListener('change', () => {
     board.innerHTML = '';
     createBoard();
 });
 
-// FUNCTIONS
+board.addEventListener('mouseover', e => {
+    if(e.target.classList.contains('cell')) {
+        pickClr(e);
+    }
+})
+board.addEventListener('mousedown', e => {
+    if(e.target.classList.contains('cell')) {
+        pickClr(e);
+    }
+})
+
+
+//**********FUNCTIONS**********
 
 function createBoard() {
     rangeInput.nextElementSibling.textContent = `${rangeInput.value} x ${rangeInput.value}`;
@@ -51,6 +72,22 @@ function createBoard() {
         }
     } 
 };
+function pickClr(e) {
+    if( e.type === 'mouseover' && !mouseDown) return;
+    else if(clrMode === 'rainbow') {
+        let r, g, b;
+        r = Math.floor(Math.random() * 257);
+        g = Math.floor(Math.random() * 257);
+        b = Math.floor(Math.random() * 257);
+        e.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
+    }
+    else if(clrMode === 'eraser') {
+        e.target.style.backgroundColor = '#fff';
+    }
+    else if(clrMode === 'default') {
+        e.target.style.backgroundColor = currentClr;
+    }
+}
 
 // SETS YEAR FOR COPYRIGHT
 document.querySelector('#year').textContent = new Date().getFullYear();

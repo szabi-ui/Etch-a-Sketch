@@ -62,11 +62,16 @@ html {
     border: none;
     border-radius: 4px;
 }
-
+/* HOVER STATES */
 .btn:hover,
-.btn.active {
-    background-color: var(--clr2);
+input[type='color']::-webkit-color-swatch:hover,
+input[type='range']::-webkit-slider-runnable-track:hover {
+    filter: brightness(70%);
 }
+
+
+/************ BOARD ************/
+
 
 .board {
     background-color: white;
@@ -86,16 +91,14 @@ html {
 }
 
 .cell {
-    border: 1px solid var(--clr2);
+    /* border: 1px solid var(--clr2); */
     flex-grow: 1;
 }
 
-.footer {
-    margin-top: 1.5rem;
-    font-size: 20px;
-}
 
-/* INPUTS */
+/*********** INPUTS ***********/
+
+
 .btn,
 .input,
 .label {
@@ -131,6 +134,7 @@ input[type='color']::-webkit-color-swatch {
     border-radius: 50px;
 }
 
+
 input[type='range'] {
     -webkit-appearance: none;
     appearance: none;
@@ -151,10 +155,16 @@ input[type='range']::-webkit-slider-thumb {
     border-radius: 50px;
     margin-top: -4px;
     background: var(--clr1);    
-  }
+}
 
 
+/************ FOOTER ***********/
 
+
+.footer {
+    margin-top: 1.5rem;
+    font-size: 20px;
+}
 
 
 
